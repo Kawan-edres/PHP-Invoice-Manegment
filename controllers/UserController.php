@@ -17,7 +17,7 @@ class UserController
 
     public static function index(Router $router)
     {
-        $router->renderView('signin');
+        $router->renderView('products/products');
     }
     public static function home(Router $router)
     {

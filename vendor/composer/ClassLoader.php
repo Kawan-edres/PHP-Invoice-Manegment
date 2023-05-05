@@ -177,7 +177,7 @@ class ClassLoader
 
     /**
      * Registers a set of PSR-0 directories for a given prefix, either
-     * appending or prepending to the ones previously set for this prefix.
+     * Detailsending or prepending to the ones previously set for this prefix.
      *
      * @param string          $prefix  The prefix
      * @param string[]|string $paths   The PSR-0 root directories
@@ -224,7 +224,7 @@ class ClassLoader
 
     /**
      * Registers a set of PSR-4 directories for a given namespace, either
-     * appending or prepending to the ones previously set for this namespace.
+     * Detailsending or prepending to the ones previously set for this namespace.
      *
      * @param string          $prefix  The prefix/namespace, with trailing '\\'
      * @param string[]|string $paths   The PSR-4 base directories
@@ -264,7 +264,7 @@ class ClassLoader
                 $this->prefixDirsPsr4[$prefix]
             );
         } else {
-            // Append directories for an already registered namespace.
+            // Detailsend directories for an already registered namespace.
             $this->prefixDirsPsr4[$prefix] = array_merge(
                 $this->prefixDirsPsr4[$prefix],
                 (array) $paths
@@ -455,7 +455,7 @@ class ClassLoader
             return false;
         }
         if (null !== $this->apcuPrefix) {
-            $file = apcu_fetch($this->apcuPrefix.$class, $hit);
+            $file = apcu_fetch($this->apcuPrefix . $class, $hit);
             if ($hit) {
                 return $file;
             }
@@ -469,7 +469,7 @@ class ClassLoader
         }
 
         if (null !== $this->apcuPrefix) {
-            apcu_add($this->apcuPrefix.$class, $file);
+            apcu_add($this->apcuPrefix . $class, $file);
         }
 
         if (false === $file) {
@@ -578,7 +578,7 @@ class ClassLoader
          * @param  string $file
          * @return void
          */
-        self::$includeFile = \Closure::bind(static function($file) {
+        self::$includeFile = \Closure::bind(static function ($file) {
             include $file;
         }, null, null);
     }
