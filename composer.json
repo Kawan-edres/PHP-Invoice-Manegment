@@ -1,0 +1,16 @@
+{
+    "name": "barez/details",
+    "autoload": {
+        "psr-4": {
+            "Details\\": "./"
+        }
+    },
+    "authors": [
+        {
+            "name": "kawan idrees",
+            "email": "kawanedres211@gmail.com"
+        }
+    ],
+    "require": {}
+    
+}
