@@ -28,10 +28,10 @@ $router->get('/logout', [$userController, 'logout']);
 $router->post('/logout', [$userController, 'logout']);
 
 // products 
-$router->get('/products',[$productController,'index']);
-$router->get('/products/create',[$productController,'create']);
-$router->post('/products/create',[$productController,'create']);
-$router->get('/products/update',[$productController,'update']);
-$router->post('/products/update',[$productController,'update']);
-$router->post('/products/delete',[$productController,'delete']);
+// $router->get('/products',[$productController,'index']);
+// $router->get('/products/create',[$productController,'create']);
+// $router->post('/products/create',[$productController,'create']);
+// $router->get('/products/update',[$productController,'update']);
+// $router->post('/products/update',[$productController,'update']);
+// $router->post('/products/delete',[$productController,'delete']);
 $router->resolve();

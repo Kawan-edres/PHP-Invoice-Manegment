@@ -1,13 +1,5 @@
-<?php
-session_start();
+<?php include "helpers/checker.php" ?>
 
-$userid= $_SESSION['user_id'] ?? "";
-$username= $_SESSION['user_name'] ?? "";
-$useremail= $_SESSION['user_email'] ?? "";
-if(!$userid)header("Location:/")
-
-
-?>
 
 <div class="container mt-5">
     <h2>Welcome <?= $username; ?></h2>

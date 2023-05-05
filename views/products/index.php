@@ -1,3 +1,7 @@
+<?php
+ include "helpers/checker.php" ;
+ ?>
+
 <div class="container-fluid">
 <h1>Product List</h1>
 <?php ?>
@@ -17,7 +21,7 @@
      <tr>
          <th scope="col">#</th>
          <th scope="col">Image</th>
-         <th scope="col">Title</th>
+         <th scope="col">Name</th>
          <th scope="col">Price</th>
          <th scope="col">Create_Date</th>
          <th scope="col">Action</th>
@@ -34,7 +38,7 @@
                 <img class="img" src="/<?php echo $product['image'] ?>">
                 <?php endif ?>
              </td>
-             <td><?php echo $product["title"] ?></td>
+             <td><?php echo $product["name"] ?></td>
              <td><?php echo $product["price"] ?></td>
              <td><?php echo $product["create_date"] ?></td>
              <td>

@@ -16,8 +16,8 @@
         <input type="file" name="image">
     </div>
     <div class="form-group">
-        <label>Product title</label>
-        <input type="text" name="title" class="form-control" value="<?php echo $product['title'] ?>">
+        <label>Product Name</label>
+        <input type="text" name="name" class="form-control" value="<?php echo $product['name'] ?>">
     </div>
     <div class="form-group">
         <label>Product description</label>

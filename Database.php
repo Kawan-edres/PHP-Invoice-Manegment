@@ -40,8 +40,8 @@ class Database
 
 
         if ($search) {
-            $statment = $this->pdo->prepare('SELECT * FROM products WHERE title LIKE :title ORDER BY  create_date DESC');
-            $statment->bindValue(':title', "%$search%");
+            $statment = $this->pdo->prepare('SELECT * FROM products WHERE name LIKE :name ORDER BY  create_date DESC');
+            $statment->bindValue(':name', "%$search%");
         } else {
 
             $statment = $this->pdo->prepare('SELECT * FROM products ORDER BY  create_date DESC');
@@ -56,13 +56,15 @@ class Database
     // create product 
     public function createProduct(Product $product)
     {
-        $statement = $this->pdo->prepare("INSERT INTO products (title, image, description, price, create_date)
-                VALUES (:title, :image, :description, :price, :date)");
-        $statement->bindValue(':title', $product->title);
+        $statement = $this->pdo->prepare("INSERT INTO products (name, image, description, price, user_id, create_date)
+        VALUES (:name, :image, :description, :price, :user_id, :date)");
+    
+        $statement->bindValue(':name', $product->name);
         $statement->bindValue(':image', $product->imagePath);
         $statement->bindValue(':description', $product->description);
         $statement->bindValue(':price', $product->price);
         $statement->bindValue(':date', date('Y-m-d H:i:s'));
+        $statement->bindValue(':user_id',$product->userId);
 
         $statement->execute();
     }
@@ -78,11 +80,11 @@ class Database
     }
     public function updateProduct(Product $product)
     {
-        $statement = $this->pdo->prepare("UPDATE products SET title = :title, 
+        $statement = $this->pdo->prepare("UPDATE products SET name = :name, 
                                         image = :image, 
                                         description = :description, 
                                         price = :price WHERE id = :id");
-        $statement->bindValue(':title', $product->title);
+        $statement->bindValue(':name', $product->name);
         $statement->bindValue(':image', $product->imagePath);
         $statement->bindValue(':description', $product->description);
         $statement->bindValue(':price', $product->price);
