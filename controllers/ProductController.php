@@ -71,37 +71,31 @@ class ProductController
         $router->renderView('products/create', ['product' => $productData, 'errors' => $errors]);
     }
 
-    public static function updateForm(Router $router) {
-        $userid = $_SESSION['user_id'] ;
-        $id = $_GET['id'] ?? null;
-        if (!$id) {
-            header('Location: /products');
-            exit;
-        }
-        $productData = $router->db->getProductById($id);
-        $router->renderView('products/update', [
-            'product' => $productData
-        ]);
-    }
-    
+
 
     public static function update(Router $router)
     {
 
         $userid = $_SESSION['user_id'] ;
         $id = $_GET['id'] ?? null;
-        echo "id". $id;
+        
+
+       
         if (!$id) {
 
-            // header('Location: /products');
-            // exit;
+            header('Location: /products');
+            exit;
         }
         $productData = $router->db->getProductById($id);
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        echo "<pre>";
+        print_r($productData);
+        echo "</pre>";
+ 
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && $productData) {
             $productData['name'] = $_POST['name'];
             $productData['description'] = $_POST['description'];
             $productData['price'] = $_POST['price'];
-            $productData['imageFile'] = $_FILES['image'] ?? null;
+            $productData['image'] = $_FILES['image'] ?? null;
 
             $product = new Product($userid);
             $product->load($productData,$userid);
@@ -118,17 +112,30 @@ class ProductController
     
 
 
-    public static  function delete(Router $router)
-    {
-        $id = $_POST['id'] ?? null;
-        if (!$id) {
-            header('Location: /products');
-            exit;
-        }
+    public static function delete(Router $router)
+{
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-        if ($router->db->deleteProduct($id)) {
-            header('Location: /products');
-            exit;
-        }
+    $id = $_POST['id'] ?? null;
+    echo $id;
+    if (!$id) {
+        header('Location: /products');
+        exit;
     }
+
+    $success = $router->db->deleteProduct($id);
+    if ($success) {
+        header('Content-Type: application/json');
+        header("Location:/products");
+        echo json_encode(['success' => 'Product deleted successfully!']);
+        exit;
+    } else {
+        header('Content-Type: application/json');
+        echo json_encode(['error' => 'Failed to delete product.']);
+        exit;
+    }
+}
+
+}
+
 }

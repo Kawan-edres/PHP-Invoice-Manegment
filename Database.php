@@ -74,6 +74,7 @@ class Database
 
         return $statement->fetch(PDO::FETCH_ASSOC);
     }
+    
     public function updateProduct(Product $product)
     {
         $statement = $this->pdo->prepare("UPDATE products SET name = :name, 

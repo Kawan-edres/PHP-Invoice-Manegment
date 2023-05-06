@@ -43,6 +43,10 @@ class Router
         else if($method==='POST' && $action==='create_product'){
             $fn = [ProductController::class, 'create'];
         }
+        else if($method==='POST' && $action==='update_product'){
+            $fn = [ProductController::class, 'update'];
+        }
+       
          else {
             $fn = $this->postRoutes[$currentUrl] ?? null;
         }

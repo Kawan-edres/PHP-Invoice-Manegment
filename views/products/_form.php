@@ -60,7 +60,8 @@
                     alertDiv.textContent = data.error;
                 } else if (data.hasOwnProperty('success')) {
                     alertDiv.classList.add('alert', 'alert-success');
-                    alertDiv.textContent = 'Sign up successful!';
+                    alertDiv.textContent = 'created successful!';
+                    window.location.href = "/products";
                 }
             })
             .catch(error => {

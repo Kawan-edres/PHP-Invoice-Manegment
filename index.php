@@ -30,7 +30,7 @@ $router->post('/logout', [$userController, 'logout']);
 $router->get('/products', [ProductController::class, 'index']);
 $router->get('/products/create', [ProductController::class, 'create']);
 $router->post('/products/create', [ProductController::class, 'create']);
-$router->get('/products/update', [ProductController::class, 'updateForm']);
+$router->get('/products/update', [ProductController::class, 'update']);
 $router->post('/products/update', [ProductController::class, 'update']);
 $router->post('/products/delete', [ProductController::class, 'delete']);
 
