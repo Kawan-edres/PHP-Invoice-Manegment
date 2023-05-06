@@ -38,18 +38,12 @@ class Product
 
     public function save()
     {
-
-        
         $errors = [];
-
-       
-       
         if (!$this->name) $errors[] = "Product name is required ";
         if (!$this->price) $errors[] = "Product price is required ";
         if (!is_dir(__DIR__ . '/../assets/images')) {
             mkdir(__DIR__ . '/../assets/images');
         }
-
         if (empty($errors)) {
 
             if ($this->imageFile && $this->imageFile['tmp_name']) {
@@ -65,7 +59,6 @@ class Product
             if ($this->id) {
                 $db->updateProduct($this);
             } else {
-
                 $db->createProduct($this);
             }
         }

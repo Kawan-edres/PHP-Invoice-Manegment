@@ -12,6 +12,9 @@ if(!$userid) {
     exit();
 }
  ?>
+ <div class="update-section">
+
+
 <h1>Update Product </h1>
 <?php if (!empty($errors)): ?>
    <div class="alert alert-danger">
@@ -24,8 +27,10 @@ if(!$userid) {
 <div id="alert"></div>
 
 <form id="update-form" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="update">
     <?php if ($product['image']): ?>
-        <img src="/<?php echo $product['image'] ?>" class="product-img-view">
+        <img class="update-img" src="/assets/<?php echo $product['image'] ?>" class="product-img-view">
+
     <?php endif; ?>
     <div class="form-group">
         <label>Product Image</label><br>
@@ -45,6 +50,8 @@ if(!$userid) {
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+
+</div>
 
 <!-- <script>
     var form = document.getElementById('update-form');

@@ -76,38 +76,52 @@ class ProductController
     public static function update(Router $router)
     {
 
-        $userid = $_SESSION['user_id'] ;
-        $id = $_GET['id'] ?? null;
-        
-
-       
-        if (!$id) {
-
-            header('Location: /products');
+        $userid = $_SESSION['user_id'] ?? '';
+        if (!$userid) {
+            header('Location: /');
             exit;
         }
+    
+        $id = $_POST['idd'] ?? null;
+        // if (!$id) {
+        //     header('Location: /products');
+        //     exit;
+        // }
+    
         $productData = $router->db->getProductById($id);
+        // if (!$productData) {
+        //     header('Location: /products');
+        //     exit;
+        // }
+
         echo "<pre>";
         print_r($productData);
         echo "</pre>";
  
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && $productData) {
-            $productData['name'] = $_POST['name'];
-            $productData['description'] = $_POST['description'];
-            $productData['price'] = $_POST['price'];
-            $productData['image'] = $_FILES['image'] ?? null;
-
-            $product = new Product($userid);
-            $product->load($productData,$userid);
-            $product->save();
-            header('Location: /products');
+        $errors = [];
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["update"])) {
+            $product['name'] = $_POST['name'];
+            $product['description'] = $_POST['description'];
+            $product['price'] = (float)$_POST['price'];
+            $product['imageFile'] = $_FILES['image'] ?? null;
+    
+            $productModel = new Product($userid);
+            $productModel->load($product, $userid);
+            $errors = $productModel->save();
+    
+            if (empty($errors)) {
+                header('Content-Type: application/json');
+                echo json_encode(['success' => 'Product updated successfully!']);
+                exit;
+            }
+    
+            header('Content-Type: application/json');
+            echo json_encode(['error' => $errors]);
             exit;
         }
-
-        //render update 
-        $router->renderView('products/update', [
-            'product' => $productData
-        ]);
+    
+        $router->renderView('products/update', ['product' => $productData, 'errors' => $errors]);
+    
     }
     
 

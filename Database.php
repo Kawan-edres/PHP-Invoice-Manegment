@@ -75,20 +75,25 @@ class Database
         return $statement->fetch(PDO::FETCH_ASSOC);
     }
     
-    public function updateProduct(Product $product)
-    {
-        $statement = $this->pdo->prepare("UPDATE products SET name = :name, 
-                                        image = :image, 
-                                        description = :description, 
-                                        price = :price WHERE id = :id");
-        $statement->bindValue(':name', $product->name);
-        $statement->bindValue(':image', $product->imagePath);
-        $statement->bindValue(':description', $product->description);
-        $statement->bindValue(':price', $product->price);
-        $statement->bindValue(':id', $product->id);
+        public function updateProduct(Product $product)
+        {
+            $statement = $this->pdo->prepare("UPDATE products SET name = :name, 
+                                            image = :image, 
+                                            description = :description, 
+                                            price = :price WHERE id = :id");
+            $statement->bindValue(':name', $product->name);
+            if ($product->imagePath) {
+                $statement->bindValue(':image', $product->imagePath);
+            } else {
+                $statement->bindValue(':image', null, PDO::PARAM_NULL);
+            }
+            
+            $statement->bindValue(':description', $product->description);
+            $statement->bindValue(':price', $product->price);
+            $statement->bindValue(':id', $product->id);
 
-        $statement->execute();
-    }
+            $statement->execute();
+        }
 
     public function deleteProduct($id)
     {

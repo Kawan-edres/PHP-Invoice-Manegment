@@ -52,8 +52,8 @@
                 <td><?php echo $product["create_date"] ?></td>
                 <td>
 
-                <form style="display: inline-block;" method="get" action="/products/update">
-                    <input type="hidden" name="id" value="<?php echo $product['id'] ?>">
+                <form style="display: inline-block;" method="post" action="/products/update">
+                    <input type="hidden" name="idd" value="<?php echo $product['id'] ?>">
                     <button type="submit"class="btn btn-sm btn-outline-primary">Edit</button>
                 </form>
 
