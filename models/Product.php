@@ -5,7 +5,7 @@ namespace Details\models;
 use Details\Database;
 use Details\helpers\UtilHelper;
 
-require_once "helpers/checker.php";
+// require_once "helpers/checker.php";
 
 class Product
 {

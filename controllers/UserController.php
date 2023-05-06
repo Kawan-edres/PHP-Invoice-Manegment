@@ -22,7 +22,7 @@ class UserController
     public static function home(Router $router)
     {
 
-        if (User::isLoggedIn()) {
+        if (!User::isLoggedIn()) {
             header('Location: /signin');
             exit;
         }
@@ -30,7 +30,7 @@ class UserController
     }
    
 
-    public static function signUp(Router $router)
+    public static function signup(Router $router)
     {
         $userData = [
             'username' => '',
@@ -74,7 +74,7 @@ class UserController
     
     public static function signIn(Router $router)
     {
-        session_start();
+ 
           
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -116,7 +116,7 @@ class UserController
 
     public function logout(Router $router)
     {
-        session_start();
+     
         session_destroy();
         header("Location: /signin");
     }

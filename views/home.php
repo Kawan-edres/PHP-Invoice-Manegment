@@ -1,4 +1,16 @@
-<?php include "helpers/checker.php" ?>
+<?php 
+
+
+$userid= $_SESSION['user_id'] ?? "";
+$username= $_SESSION['user_name'] ?? "";
+$useremail= $_SESSION['user_email'] ?? "";
+if(!$userid) {
+    header("Location:/");
+    exit();
+}
+
+
+?>
 
 
 <div class="container mt-5">

@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 require_once __DIR__ . '/vendor/autoload.php';
 
@@ -8,12 +9,10 @@ use Details\Router;
 
 $router = new Router();
 $userController = new UserController();
-$productController = new ProductController();
 
 
 
 $router->get('/', [$userController, 'index']);
-$router->post('/', [$userController, 'index']);
 
 $router->get('/signin', [$userController, 'signin']);
 $router->post('/signin', [$userController, 'signin']);
@@ -28,10 +27,12 @@ $router->get('/logout', [$userController, 'logout']);
 $router->post('/logout', [$userController, 'logout']);
 
 // products 
-// $router->get('/products',[$productController,'index']);
-// $router->get('/products/create',[$productController,'create']);
-// $router->post('/products/create',[$productController,'create']);
-// $router->get('/products/update',[$productController,'update']);
-// $router->post('/products/update',[$productController,'update']);
-// $router->post('/products/delete',[$productController,'delete']);
+$router->get('/products', [ProductController::class, 'index']);
+$router->get('/products/create', [ProductController::class, 'create']);
+$router->post('/products/create', [ProductController::class, 'create']);
+$router->get('/products/update', [ProductController::class, 'updateForm']);
+$router->post('/products/update', [ProductController::class, 'update']);
+$router->post('/products/delete', [ProductController::class, 'delete']);
+
+
 $router->resolve();

@@ -34,24 +34,20 @@ class Database
         $statement->execute();
     }
 
-//  get products 
+    //get product 
     public function getProducts($search = '')
     {
-
-
         if ($search) {
-            $statment = $this->pdo->prepare('SELECT * FROM products WHERE name LIKE :name ORDER BY  create_date DESC');
-            $statment->bindValue(':name', "%$search%");
+            $statement = $this->pdo->prepare('SELECT * FROM products WHERE user_id = :user_id AND name LIKE :name ORDER BY create_date DESC');
+            $statement->bindValue(':name', "%$search%");
         } else {
-
-            $statment = $this->pdo->prepare('SELECT * FROM products ORDER BY  create_date DESC');
+            $statement = $this->pdo->prepare('SELECT * FROM products WHERE user_id = :user_id ORDER BY create_date DESC');
         }
-
-
-        $statment->execute();
-        return $statment->fetchAll(PDO::FETCH_ASSOC); // how do you wanna get the data 
-
+        $statement->bindValue(':user_id', $_SESSION['user_id']);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
+    
 
     // create product 
     public function createProduct(Product $product)

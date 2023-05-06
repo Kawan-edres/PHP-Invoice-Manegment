@@ -20,7 +20,7 @@
             event.preventDefault();
 
             var formData = new FormData(form);
-            console.log(formData)
+           
 
             fetch('index.php?action=signin', {
                     method: 'POST',

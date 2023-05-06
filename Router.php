@@ -2,6 +2,7 @@
 
 namespace Details;
 
+use Details\controllers\ProductController;
 use Details\controllers\UserController;
 use Details\models\User;
 
@@ -38,6 +39,9 @@ class Router
         }
         else if($method==='POST' && $action==='signin'){
             $fn = [UserController::class, 'signin'];
+        }
+        else if($method==='POST' && $action==='create_product'){
+            $fn = [ProductController::class, 'create'];
         }
          else {
             $fn = $this->postRoutes[$currentUrl] ?? null;

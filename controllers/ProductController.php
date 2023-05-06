@@ -4,7 +4,15 @@ namespace Details\controllers;
 
 use Details\models\Product;
 use Details\Router;
- include "helpers/checker.php" ;
+
+
+$userid= $_SESSION['user_id'] ?? "";
+$username= $_SESSION['user_name'] ?? "";
+$useremail= $_SESSION['user_email'] ?? "";
+if(!$userid) {
+    header("Location:/");
+    exit();
+}
 
 
 
@@ -17,7 +25,7 @@ class ProductController
     {
         $search = $_GET['search'] ?? '';
         $products = $router->db->getProducts($search);
-        $router->renderView('products/index', [
+        $router->renderView('products/product', [
             'products' => $products,
             'search' => $search
 
@@ -29,7 +37,7 @@ class ProductController
 
 
         $userid = $_SESSION['user_id']  ;
-        echo $userid;
+        
         $errors = [];
         $productData = [
             'name' => '',
@@ -49,17 +57,21 @@ class ProductController
             $product->load($productData,$userid);
             $errors = $product->save(); // we are checking for errors in model save function 
             if (empty($errors)) {
-                header('Location: /products');
+                header('Content-Type: application/json');
+                echo json_encode(['success' => 'Product created successfully!']);
                 exit;
             }
+            
+            // If there are errors, return them as an AJAX response
+            header('Content-Type: application/json');
+            echo json_encode(['error' => $errors]);
+            exit;
         }
         // else the error will  passed to to the render view products 
         $router->renderView('products/create', ['product' => $productData, 'errors' => $errors]);
     }
 
-    public static function update(Router $router)
-    {
-
+    public static function updateForm(Router $router) {
         $userid = $_SESSION['user_id'] ;
         $id = $_GET['id'] ?? null;
         if (!$id) {
@@ -67,7 +79,24 @@ class ProductController
             exit;
         }
         $productData = $router->db->getProductById($id);
+        $router->renderView('products/update', [
+            'product' => $productData
+        ]);
+    }
+    
 
+    public static function update(Router $router)
+    {
+
+        $userid = $_SESSION['user_id'] ;
+        $id = $_GET['id'] ?? null;
+        echo "id". $id;
+        if (!$id) {
+
+            // header('Location: /products');
+            // exit;
+        }
+        $productData = $router->db->getProductById($id);
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $productData['name'] = $_POST['name'];
             $productData['description'] = $_POST['description'];
@@ -86,6 +115,7 @@ class ProductController
             'product' => $productData
         ]);
     }
+    
 
 
     public static  function delete(Router $router)
