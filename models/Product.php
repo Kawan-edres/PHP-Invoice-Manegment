@@ -26,7 +26,6 @@ class Product
 
     public function load($data, $userId)
 {
-    
     $this->id = $data['id'] ?? null;
     $this->name = $data['name'];
     $this->description = $data['description'];
