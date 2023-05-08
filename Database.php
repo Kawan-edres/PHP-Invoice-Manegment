@@ -47,20 +47,20 @@ class Database
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
-    
+
 
     // create product 
     public function createProduct(Product $product)
     {
         $statement = $this->pdo->prepare("INSERT INTO products (name, image, description, price, user_id, create_date)
         VALUES (:name, :image, :description, :price, :user_id, :date)");
-    
+
         $statement->bindValue(':name', $product->name);
         $statement->bindValue(':image', $product->imagePath);
         $statement->bindValue(':description', $product->description);
         $statement->bindValue(':price', $product->price);
         $statement->bindValue(':date', date('Y-m-d H:i:s'));
-        $statement->bindValue(':user_id',$product->userId);
+        $statement->bindValue(':user_id', $product->userId);
 
         $statement->execute();
     }
@@ -74,26 +74,26 @@ class Database
 
         return $statement->fetch(PDO::FETCH_ASSOC);
     }
-    
-        public function updateProduct(Product $product)
-        {
-            $statement = $this->pdo->prepare("UPDATE products SET name = :name, 
+
+    public function updateProduct(Product $product)
+    {
+        $statement = $this->pdo->prepare("UPDATE products SET name = :name, 
                                             image = :image, 
                                             description = :description, 
                                             price = :price WHERE id = :id");
-            $statement->bindValue(':name', $product->name);
-            if ($product->imagePath) {
-                $statement->bindValue(':image', $product->imagePath);
-            } else {
-                $statement->bindValue(':image', null, PDO::PARAM_NULL);
-            }
-            
-            $statement->bindValue(':description', $product->description);
-            $statement->bindValue(':price', $product->price);
-            $statement->bindValue(':id', $product->id);
-
-            $statement->execute();
+        $statement->bindValue(':name', $product->name);
+        if ($product->imagePath) {
+            $statement->bindValue(':image', $product->imagePath);
+        } else {
+            $statement->bindValue(':image', null, PDO::PARAM_NULL);
         }
+
+        $statement->bindValue(':description', $product->description);
+        $statement->bindValue(':price', $product->price);
+        $statement->bindValue(':id', $product->id);
+
+        $statement->execute();
+    }
 
     public function deleteProduct($id)
     {
@@ -101,5 +101,13 @@ class Database
         $statement->bindValue(':id', $id);
 
         return $statement->execute();
+    }
+
+    public function getInvoices()
+    {
+        $statement = $this->pdo->prepare('SELECT * FROM invoices WHERE user_id = :user_id');
+        $statement->bindValue(':user_id', $_SESSION['user_id']);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 }

@@ -25,16 +25,16 @@ class Product
 
 
     public function load($data, $userId)
-{
-    
-    $this->id = $data['id'] ?? null;
-    $this->name = $data['name'];
-    $this->description = $data['description'];
-    $this->price = $data['price'];
-    $this->imageFile = $data['imageFile'];
-    $this->imagePath = $data['image'] ?? null;
-    $this->userId = $userId;
-}
+    {
+
+        $this->id = $data['id'] ?? null;
+        $this->name = $data['name'];
+        $this->description = $data['description'];
+        $this->price = $data['price'];
+        $this->imageFile = $data['imageFile'];
+        $this->imagePath = $data['image'] ?? null;
+        $this->userId = $userId;
+    }
 
     public function save()
     {

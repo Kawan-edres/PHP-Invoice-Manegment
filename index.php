@@ -5,6 +5,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 use Details\controllers\ProductController;
 use Details\controllers\UserController;
+use Details\controllers\InvoiceController;
 use Details\Router;
 
 $router = new Router();
@@ -34,5 +35,7 @@ $router->get('/products/update', [ProductController::class, 'update']);
 $router->post('/products/update', [ProductController::class, 'update']);
 $router->post('/products/delete', [ProductController::class, 'delete']);
 
+$router->get('/invoices', [InvoiceController::class, 'index']);
+$router->get('/invoices/create', [InvoiceController::class, 'create']);
 
 $router->resolve();
