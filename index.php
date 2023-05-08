@@ -37,5 +37,6 @@ $router->post('/products/delete', [ProductController::class, 'delete']);
 
 $router->get('/checkout', [InvoiceController::class, 'index']);
 $router->get('/checkout/create', [InvoiceController::class, 'create']);
+$router->post('/checkout/create', [InvoiceController::class, 'create']);
 
 $router->resolve();

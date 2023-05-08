@@ -9,7 +9,7 @@ class Invoice
 {
   public ?int $id = null;
   public string $user_id;
-  public string $invoice_date;
+  // public string $invoice_date;
   public string $total;
 
   public function __construct($userid)
@@ -19,9 +19,19 @@ class Invoice
 
   public function load($data, $userId)
   {
-    $this->id = $data['id'] ?? null;
+    // $this->id = $data['id'] ?? null;
     $this->user_id = $userId;
-    $this->invoice_date = $data['invoice_date'];
-    $this->total = $data['total'];
+    // $this->invoice_date = $data['invoice_date'];
+    $this->total = $data;
+  }
+
+  public function save()
+  {
+    if ($this->total < 0) $error[] = "Total can't be 0 or less";
+    if (!empty($error))
+      return $error;
+
+    $db = Database::$db;
+    return $db->createInvoices($this->total);
   }
 }

@@ -2,6 +2,8 @@
 
 namespace Details\controllers;
 
+use Details\models\Invoice;
+use Details\models\InvoiceItem;
 use Details\Router;
 
 
@@ -29,7 +31,22 @@ class InvoiceController
   {
     $userid = $_SESSION['user_id'];
     $errors = [];
-    $products = $router->db->getProducts();
-    $router->renderView('invoices/create', ['errors' => $errors, "products" => $products]);
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+      $data = json_decode(file_get_contents("php://input"), true);
+      $invoice = new Invoice($userid);
+
+      $invoice->load($data["total"], $userid);
+      $response = $invoice->save();
+
+      foreach ($data["data"] as $invoiceItem) {
+        $invoice_item = new InvoiceItem($response, $invoiceItem);
+        $invoice_item->save();
+      }
+
+      // $router->renderView("invoices/create", ["post" => $data]);
+    } else {
+      $products = $router->db->getProducts();
+      $router->renderView('invoices/create', ['errors' => $errors, "products" => $products]);
+    }
   }
 }

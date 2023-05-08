@@ -23,16 +23,16 @@ class Database
 
     // create user
     public function createUser(User $user)
-{
-    $statement = $this->pdo->prepare("INSERT INTO users (username, email, password, is_admin)
+    {
+        $statement = $this->pdo->prepare("INSERT INTO users (username, email, password, is_admin)
     VALUES (:username, :email, :password, :is_admin)");
-    $statement->bindValue(':username', $user->username);
-    $statement->bindValue(':email', $user->email);
-    $statement->bindValue(':password', $user->password);
-    $statement->bindValue(':is_admin', 0); // Set default value to 0
+        $statement->bindValue(':username', $user->username);
+        $statement->bindValue(':email', $user->email);
+        $statement->bindValue(':password', $user->password);
+        $statement->bindValue(':is_admin', 0); // Set default value to 0
 
-    $statement->execute();
-}
+        $statement->execute();
+    }
 
 
     //get product 
@@ -110,5 +110,25 @@ class Database
         $statement->bindValue(':user_id', $_SESSION['user_id']);
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function createInvoices($total)
+    {
+        $statement = $this->pdo->prepare('INSERT INTO invoices (user_id, total) VALUES (:user_id,:total)');
+        $statement->bindValue(":user_id", $_SESSION["user_id"]);
+        $statement->bindValue(":total", $total);
+        $statement->execute();
+        return $this->pdo->lastInsertId();
+    }
+
+    public function createInvoiceItem($data)
+    {
+        $statement = $this->pdo->prepare('INSERT INTO invoice_items (invoice_id, product_id, quantity, price) 
+        VALUES (:invoiceId, :productId, :quantity, :price)');
+        $statement->bindValue(":invoiceId", $data->invoice_id);
+        $statement->bindValue(":productId", $data->product_id);
+        $statement->bindValue(":quantity", $data->qty);
+        $statement->bindValue(":price", $data->price);
+        $statement->execute();
     }
 }

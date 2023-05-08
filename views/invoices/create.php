@@ -22,54 +22,56 @@
   }
 </style>
 
-<h2>New Invoice</h2>
-<div>
-  <button class="add-product">Add product</button>
-  <div class="the-table">
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Product</th>
-          <th scope="col">Price</th>
-          <th>Quantity</th>
-        </tr>
-      </thead>
-      <tbody class="forTheTable"></tbody>
-    </table>
-  </div>
-</div>
-
-<div class="modal">
-  <div class="modal-container">
-    <h3>Products</h3>
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Product name</th>
-          <th scope="col">Price</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php foreach ($products as $i => $product) : ?>
-          <tr class="select-product" id="<?php echo $product["id"] ?>" product-name="<?php echo $product["name"]  ?>" price="<?php echo $product["price"] ?>">
-            <th scope="row"><?php echo $i + 1 ?></th>
-            <td><?php echo $product["name"] ?></td>
-            <td>$<?php echo $product["price"] ?></td>
+<main style="container">
+  <h2>New Invoice</h2>
+  <div>
+    <button class="add-product">Add product</button>
+    <div class="the-table">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Product</th>
+            <th scope="col">Price</th>
+            <th>Quantity</th>
           </tr>
-        <?php endforeach; ?>
-      </tbody>
-    </table>
+        </thead>
+        <tbody class="forTheTable"></tbody>
+      </table>
+    </div>
   </div>
-</div>
-<div class="d-flex justify-content-between">
-  <div class="d-flex">
-    <p>Total:</p>
-    <p class="total">0</p>
+
+  <div class="modal">
+    <div class="modal-container">
+      <h3>Products</h3>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Product name</th>
+            <th scope="col">Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach ($products as $i => $product) : ?>
+            <tr class="select-product" id="<?php echo $product["id"] ?>" product-name="<?php echo $product["name"]  ?>" price="<?php echo $product["price"] ?>">
+              <th scope="row"><?php echo $i + 1 ?></th>
+              <td><?php echo $product["name"] ?></td>
+              <td>$<?php echo $product["price"] ?></td>
+            </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
+    </div>
   </div>
-  <button class="confirmBtn">Confirm</button>
-</div>
+  <div class="d-flex justify-content-between">
+    <div class="d-flex">
+      <p>Total:</p>
+      <p class="total">0</p>
+    </div>
+    <button class="confirmBtn">Confirm</button>
+  </div>
+</main>
 
 <script>
   const AllRows = document.querySelectorAll(".select-product");
@@ -128,4 +130,22 @@
 
     tr.addEventListener("click", addToCheckout);
   });
+
+  confirmBtn.addEventListener("click", () => {
+    console.log("wthf")
+    fetch("/checkout/create", {
+      method: "POST",
+      body: JSON.stringify({
+        data,
+        total: total.textContent
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then(response => response.status).then(data => {
+      if (data) {
+        window.location.href = "/checkout"
+      }
+    })
+  })
 </script>
