@@ -22,7 +22,7 @@
   }
 </style>
 
-<main style="container">
+<main class="container">
   <h2>New Invoice</h2>
   <div>
     <button class="add-product">Add product</button>
@@ -67,7 +67,7 @@
   <div class="d-flex justify-content-between">
     <div class="d-flex">
       <p>Total:</p>
-      <p class="total">0</p>
+      <p class="total ml-1">$0</p>
     </div>
     <button class="confirmBtn">Confirm</button>
   </div>
@@ -89,8 +89,7 @@
 
   const checkTotal = () => {
     total.textContent = data.reduce((newValue, currentValue) => {
-      console.log(newValue, currentValue)
-      return currentValue.price * currentValue.qty + newValue
+      return `$${currentValue.price * currentValue.qty + newValue}`
     }, 0);
     // console.log(isis)
   };

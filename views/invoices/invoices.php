@@ -1,4 +1,4 @@
-<div>
+<main class="container">
   <div>
     <h2>Invoices</h2>
     <p>
@@ -23,10 +23,10 @@
             <?php echo $invoice["invoice_date"] ?>
           </td>
           <td>
-            <?php echo $invoice["total"] ?>
+            $<?php echo $invoice["total"] ?>
           </td>
         </tr>
       <?php endforeach ?>
     </tbody>
   </table>
-</div>
+</main>
