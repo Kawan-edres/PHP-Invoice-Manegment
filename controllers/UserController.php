@@ -74,45 +74,45 @@ class UserController
     
     public static function signIn(Router $router)
     {
- 
-          
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
+    
             $username = $_POST['username'];
             $password = $_POST['password'];
-           
-
-        if (empty($username) || empty($password)) {
-            echo json_encode(['error' => 'All fields are required']);
-            return;
+    
+            if (empty($username) || empty($password)) {
+                echo json_encode(['error' => 'All fields are required']);
+                return;
+            }
+    
+            $existingUser = User::getUserByUsername($username);
+    
+            if (!$existingUser) {
+                echo json_encode(['error' => 'Username Not Found']);
+                return;
+            }
+    
+            if (md5($password)!==$existingUser['password']) {
+                echo json_encode(['error' => 'Invalid password']);
+                return;
+            }
+    
+            $_SESSION['user_id'] = $existingUser['id'];
+            $_SESSION['user_name'] = $existingUser['username'];
+            $_SESSION['user_email'] = $existingUser['email'];
+    
+            // Check if the user is an admin
+            if ($existingUser['is_admin']) {
+                $_SESSION['is_admin'] = true;
+            }
+    
+            echo json_encode(['success' => true]);
+            exit;
+    
         }
-        $existingUser = User::getUserByUsername($username);
-       
-
-        // var_dump(password_verify($password, $existingUser['password']));
-        if (!$existingUser) {
-            echo json_encode(['error' => 'Username Not Found']);
-            return;
-        }
-
-        if (md5($password)!==$existingUser['password']) {
-            
-            echo json_encode(['error' => 'Invalid password']);
-            return;
-        }
-
-        $_SESSION['user_id'] = $existingUser['id'];
-        $_SESSION['user_name'] = $existingUser['username'];
-        $_SESSION['user_email'] = $existingUser['email'];
-        echo json_encode(['success' => true]);
-        exit;
-
+    
+        $router->renderView('signin');
     }
-    $router->renderView('signin');
-
-
-
-    }
+    
 
     public function logout(Router $router)
     {

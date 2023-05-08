@@ -23,16 +23,17 @@ class Database
 
     // create user
     public function createUser(User $user)
-    {
+{
+    $statement = $this->pdo->prepare("INSERT INTO users (username, email, password, is_admin)
+    VALUES (:username, :email, :password, :is_admin)");
+    $statement->bindValue(':username', $user->username);
+    $statement->bindValue(':email', $user->email);
+    $statement->bindValue(':password', $user->password);
+    $statement->bindValue(':is_admin', 0); // Set default value to 0
 
-        $statement = $this->pdo->prepare("INSERT INTO users (username, email, password)
-                VALUES (:username, :email, :password)");
-        $statement->bindValue(':username', $user->username);
-        $statement->bindValue(':email', $user->email);
-        $statement->bindValue(':password', $user->password);
+    $statement->execute();
+}
 
-        $statement->execute();
-    }
 
     //get product 
     public function getProducts($search = '')
