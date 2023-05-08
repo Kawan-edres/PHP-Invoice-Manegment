@@ -94,9 +94,7 @@ class ProductController
         //     exit;
         // }
 
-        echo "<pre>";
-        print_r($productData);
-        echo "</pre>";
+
 
         $errors = [];
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["update"])) {

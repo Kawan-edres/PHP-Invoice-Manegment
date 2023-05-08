@@ -2,7 +2,7 @@
   <div>
     <h2>Invoices</h2>
     <p>
-      <a href="/invoices/create" class="btn btn-success">Add Invoice</a>
+      <a href="/checkout/create" class="btn btn-success">Add Invoice</a>
     </p>
   </div>
   <table class="table">
