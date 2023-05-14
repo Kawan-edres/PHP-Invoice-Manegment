@@ -4,6 +4,7 @@ namespace Details;
 
 use Details\controllers\ProductController;
 use Details\controllers\UserController;
+use Details\controllers\InvoiceController;
 use Details\models\User;
 
 
@@ -31,34 +32,39 @@ class Router
         $method = $_SERVER['REQUEST_METHOD'];
         $action = $_GET['action'] ?? '';
 
-        if ($method === 'GET') {
-            $fn = $this->getRoutes[$currentUrl] ?? null;
-        }
-        else if($method === 'POST' && $action === 'signup'){
-            $fn = [UserController::class, 'signup'];
-        }
-        else if($method==='POST' && $action==='signin'){
-            $fn = [UserController::class, 'signin'];
-        }
-        else if($method==='POST' && $action==='create_product'){
-            $fn = [ProductController::class, 'create'];
-        }
-        else if($method==='POST' && $action==='update_product'){
-            $fn = [ProductController::class, 'update'];
-        }
-       
-         else {
-            $fn = $this->postRoutes[$currentUrl] ?? null;
+
+        // Check if the URL matches the pattern
+        if (preg_match('~^/checkout/detail/(\d+)$~', $currentUrl, $matches)) {
+            // Extract the ID from the matches array
+            $id = $matches[1];
+            $_SESSION['invoice_id'] = $id;
+            $this->get("/checkout/detail", [InvoiceController::class, "show"]);
+            $fn = $this->getRoutes["/checkout/detail"];
+        } else {
+
+            if ($method === 'GET') {
+                $fn = $this->getRoutes[$currentUrl] ?? null;
+            } else if ($method === 'POST' && $action === 'signup') {
+                $fn = [UserController::class, 'signup'];
+            } else if ($method === 'POST' && $action === 'signin') {
+                $fn = [UserController::class, 'signin'];
+            } else if ($method === 'POST' && $action === 'create_product') {
+                $fn = [ProductController::class, 'create'];
+            } else if ($method === 'POST' && $action === 'update_product') {
+                $fn = [ProductController::class, 'update'];
+            } else {
+                $fn = $this->postRoutes[$currentUrl] ?? null;
+            }
         }
         if ($fn) {
-                // echo "<pre>";
-                // var_dump($this->getRoutes);
-                // echo "</pre>";
-            call_user_func($fn, $this); //aw func   tiona render bka ka dawa krawa ka rendery view aka  wa $this routery pe anerin  wakw parameter   
+            // echo "<pre>";
+            // var_dump($this->getRoutes);
+            // echo "</pre>";
+            call_user_func($fn, $this); //aw functiona render bka ka dawa krawa ka rendery view aka  wa $this routery pe anerin  wakw parameter   
         }
-            //  else {
-            //     echo 'page not found';
-            // }
+        //  else {
+        //     echo 'page not found';
+        // }
     }
     public function renderView($view, $params = [])  //products/index.php
     {

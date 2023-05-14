@@ -18,7 +18,11 @@
       foreach ($invoices as $i => $invoice) :
       ?>
         <tr>
-          <th scope="row"><?php echo $i + 1 ?></th>
+          <th scope="row">
+            <a href="/checkout/detail/<?php echo $invoice["id"] ?>">
+              <?php echo $i + 1 ?>
+            </a>
+          </th>
           <td>
             <?php echo $invoice["invoice_date"] ?>
           </td>

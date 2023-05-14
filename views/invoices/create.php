@@ -6,6 +6,7 @@
     display: none;
     justify-content: center;
     align-items: center;
+    background-color: rgba(0, 0, 0, 0.7);
   }
 
   .modal .modal-container {
@@ -27,9 +28,9 @@
 
   <h2>New Invoice</h2>
   <div>
-    <button class="add-product">Add product</button>
+    <button class="add-product btn btn-success">Add product</button>
     <div class="the-table">
-      <table class="table">
+      <table class="table mt-3">
         <thead>
           <tr>
             <th scope="col">#</th>
@@ -45,7 +46,10 @@
 
   <div class="modal">
     <div class="modal-container">
-      <h3>Products</h3>
+      <div class="d-flex justify-content-between mb-3">
+        <h3>Products</h3>
+        <button class="btn btn-danger close-modal">Close</button>
+      </div>
       <table class="table">
         <thead>
           <tr>
@@ -71,12 +75,18 @@
       <p>Total:</p>
       <p class="total ml-1">$0</p>
     </div>
-    <button class="confirmBtn">Confirm</button>
+    <button class="confirmBtn btn btn-primary">Confirm</button>
   </div>
 </main>
 
 <script>
   let alertDiv = document.getElementById('alert');
+
+  const closeModal = document.querySelector(".close-modal");
+  closeModal.addEventListener("click", () => {
+    document.querySelector(".modal").style.display = "none";
+
+  });
 
   const AllRows = document.querySelectorAll(".select-product");
   const tbody = document.querySelector(".forTheTable");
@@ -92,8 +102,9 @@
   let data = [];
 
   const checkTotal = () => {
-    total.textContent = data.reduce((newValue, currentValue) => {
-      return `$${currentValue.price * currentValue.qty + newValue}`
+    console.log(data)
+    total.textContent = "$" + data.reduce((newValue, currentValue) => {
+      return `${Number(currentValue.price) * Number(currentValue.qty) + Number(newValue)}`
     }, 0);
     // console.log(isis)
   };
@@ -115,7 +126,7 @@
           qty: 1
         });
       }
-      checkTotal()
+      checkTotal();
 
       tbody.innerHTML = data.map((product, index) => `<tr><th>${index+1}</th>
       <td>${product.name}</td>

@@ -34,7 +34,6 @@ class Database
         $statement->execute();
     }
 
-
     //get product 
     public function getProducts($search = '')
     {
@@ -49,6 +48,14 @@ class Database
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
+
+    public function getInvoiceDetail($invoice_id)
+    {
+        $statement = $this->pdo->prepare('SELECT invoice_items.id, invoice_items.invoice_id, invoice_items.quantity, invoice_items.price, products.name FROM invoice_items INNER JOIN products ON invoice_items.product_id = products.id WHERE invoice_items.invoice_id = :invoice_id');
+        $statement->bindValue(':invoice_id', $invoice_id);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
 
     // create product 
     public function createProduct(Product $product)

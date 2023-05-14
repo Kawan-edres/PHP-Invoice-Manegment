@@ -27,6 +27,15 @@ class InvoiceController
     ]);
   }
 
+  public static function show(Router $router)
+  {
+    $userid = $_SESSION['user_id'];
+    $errors = [];
+
+    $products = $router->db->getInvoiceDetail($_SESSION["invoice_id"]);
+    $router->renderView('invoices/invoice-detail', ['errors' => $errors, "products" => $products]);
+  }
+
   public static function create(Router $router)
   {
     $userid = $_SESSION['user_id'];
