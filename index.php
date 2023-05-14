@@ -27,6 +27,12 @@ $router->post('/home', [$userController, 'home']);
 $router->get('/logout', [$userController, 'logout']);
 $router->post('/logout', [$userController, 'logout']);
 
+
+$router->get('/dashboard', [$userController, 'dashboard']);
+$router->post('/dashboard', [$userController, 'dashboard']);
+
+$router->post('/delete-user', [$userController, 'dashboard']);
+
 // products 
 $router->get('/products', [ProductController::class, 'index']);
 $router->get('/products/create', [ProductController::class, 'create']);
