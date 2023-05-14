@@ -35,8 +35,11 @@ class InvoiceController
       $data = json_decode(file_get_contents("php://input"), true);
       $invoice = new Invoice($userid);
 
+      var_dump($data["total"], $userid);
+
       $invoice->load($data["total"], $userid);
       $response = $invoice->save();
+      // var_dump($response);
 
       foreach ($data["data"] as $invoiceItem) {
         $invoice_item = new InvoiceItem($response, $invoiceItem);

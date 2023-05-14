@@ -25,7 +25,6 @@ class InvoiceItem
     if ($this->qty < 0) $error[] = "Quantity can't be 0 or less";
     if (!empty($error))
       return $error;
-
     $db = Database::$db;
     return $db->createInvoiceItem($this);
   }

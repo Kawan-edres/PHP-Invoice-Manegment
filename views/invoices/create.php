@@ -131,12 +131,11 @@
   });
 
   confirmBtn.addEventListener("click", () => {
-    console.log("wthf")
     fetch("/checkout/create", {
       method: "POST",
       body: JSON.stringify({
         data,
-        total: total.textContent
+        total: total.textContent.replace("$", "")
       }),
       headers: {
         "Content-Type": "application/json",

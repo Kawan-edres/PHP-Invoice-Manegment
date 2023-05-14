@@ -117,7 +117,8 @@ class Database
         $statement = $this->pdo->prepare('INSERT INTO invoices (user_id, total) VALUES (:user_id,:total)');
         $statement->bindValue(":user_id", $_SESSION["user_id"]);
         $statement->bindValue(":total", $total);
-        $statement->execute();
+        var_dump($statement->execute());
+
         return $this->pdo->lastInsertId();
     }
 
