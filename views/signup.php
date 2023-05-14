@@ -52,6 +52,12 @@
                     } else if (data.hasOwnProperty('success')) {
                         alertDiv.classList.add('alert', 'alert-success');
                         alertDiv.textContent = 'Sign up successful!';
+
+                        setTimeout(()=>{
+                            window.location.href = "/signin";
+
+                        },500)
+
                     }
                 })
                 .catch(error => {
