@@ -51,4 +51,20 @@ class User
         $statement->execute();
         return $statement->fetch(PDO::FETCH_ASSOC);
     }
+
+
+    // getting all users for amdin dashboard
+
+    public static function getAllUsers()
+{
+    $db = Database::$db;
+    $statement = $db->pdo->prepare("SELECT users.*, COUNT(DISTINCT products.id) AS product_count, COUNT(DISTINCT invoices.id) AS invoice_count
+                                   FROM users
+                                   LEFT JOIN products ON users.id = products.user_id
+                                   LEFT JOIN invoices ON users.id = invoices.user_id
+                                   GROUP BY users.id");
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+}
+
 }

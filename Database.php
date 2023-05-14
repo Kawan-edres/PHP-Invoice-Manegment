@@ -132,4 +132,25 @@ class Database
         $statement->bindValue(":price", $data->price);
         $statement->execute();
     }
+
+    public function deleteUser($userId)
+    {
+        // Delete associated invoice items first
+        $statement = $this->pdo->prepare('DELETE FROM invoice_items WHERE product_id IN (SELECT id FROM products WHERE user_id = :user_id)');
+        $statement->bindValue(':user_id', $userId);
+        $statement->execute();
+    
+        // Delete associated products
+        $statement = $this->pdo->prepare('DELETE FROM products WHERE user_id = :user_id');
+        $statement->bindValue(':user_id', $userId);
+        $statement->execute();
+    
+        // Delete the user
+        $statement = $this->pdo->prepare('DELETE FROM users WHERE id = :id');
+        $statement->bindValue(':id', $userId);
+    
+        return $statement->execute();
+    }
+    
+
 }

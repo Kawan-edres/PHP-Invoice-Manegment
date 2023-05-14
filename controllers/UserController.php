@@ -28,6 +28,37 @@ class UserController
         }
         $router->renderView('home');
     }
+    public static function dashboard(Router $router)
+    {
+
+        if (!User::isLoggedIn()) {
+            header('Location: /signin');
+            exit;
+        }
+
+         // Handle delete user request
+         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['user_id'])) {
+            $userId = $_POST['user_id'];
+            $database = new Database();
+            $success = $database->deleteUser($userId);
+
+            if ($success) {
+                // User deleted successfully
+                // You can redirect to the updated user list or display a success message
+                header('Location: /dashboard');
+                exit;
+            } else {
+                // Error occurred while deleting the user
+                // You can redirect to the user list or display an error message
+                header('Location: /dashboard');
+                exit;
+            }
+        }
+
+        $users = User::getAllUsers();
+
+        $router->renderView('dashboard',['users' => $users]);
+    }
    
 
     public static function signup(Router $router)
