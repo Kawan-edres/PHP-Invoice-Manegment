@@ -22,7 +22,7 @@ class InvoiceItem
 
   public function save()
   {
-    if ($this->qty < 0) $error[] = "Quantity can't be 0 or less";
+    if ($this->qty < 0) $error["error"] = "Quantity can't be 0 or less";
     if (!empty($error))
       return $error;
     $db = Database::$db;

@@ -23,6 +23,8 @@
 </style>
 
 <main class="container">
+  <div id="alert"></div>
+
   <h2>New Invoice</h2>
   <div>
     <button class="add-product">Add product</button>
@@ -74,6 +76,8 @@
 </main>
 
 <script>
+  let alertDiv = document.getElementById('alert');
+
   const AllRows = document.querySelectorAll(".select-product");
   const tbody = document.querySelector(".forTheTable");
   const total = document.querySelector(".total");
@@ -140,9 +144,21 @@
       headers: {
         "Content-Type": "application/json",
       },
-    }).then(response => response.status).then(data => {
-      if (data) {
-        window.location.href = "/checkout"
+    }).then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error('Network response was not ok.');
+      }
+    }).then(responseJson => {
+      console.log(responseJson, "data")
+      if (responseJson.hasOwnProperty('error')) {
+        alertDiv.classList.add('alert', 'alert-danger');
+        alertDiv.textContent = responseJson.error;
+      } else if (responseJson.hasOwnProperty('success')) {
+        alertDiv.classList.add('alert', 'alert-success');
+        alertDiv.textContent = 'created successful!';
+        window.location.href = "/checkout";
       }
     })
   })

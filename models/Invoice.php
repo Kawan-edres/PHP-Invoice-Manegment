@@ -27,7 +27,7 @@ class Invoice
 
   public function save()
   {
-    if ($this->total < 0) $error[] = "Total can't be 0 or less";
+    if ($this->total <= 0) $error["error"] = "You need to select a product!";
     if (!empty($error))
       return $error;
 

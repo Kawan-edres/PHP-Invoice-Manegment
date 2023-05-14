@@ -35,16 +35,28 @@ class InvoiceController
       $data = json_decode(file_get_contents("php://input"), true);
       $invoice = new Invoice($userid);
 
-      var_dump($data["total"], $userid);
-
       $invoice->load($data["total"], $userid);
       $response = $invoice->save();
-      // var_dump($response);
+
+      if (!empty($response["error"])) {
+        header('Content-Type: application/json');
+        echo json_encode(['error' => $response["error"]]);
+        exit;
+      }
 
       foreach ($data["data"] as $invoiceItem) {
         $invoice_item = new InvoiceItem($response, $invoiceItem);
-        $invoice_item->save();
+        $responseInvoiceItem = $invoice_item->save();
+        if (!empty($responseInvoiceItem["error"])) {
+          header('Content-Type: application/json');
+          echo json_encode(['error' => $responseInvoiceItem["error"]]);
+          exit;
+        }
       }
+
+      header('Content-Type: application/json');
+      echo json_encode(['success' => "Invoice created successfully!"]);
+      exit;
 
       // $router->renderView("invoices/create", ["post" => $data]);
     } else {
